@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Калькулятор депозитов</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Депозитный калькулятор</h1>
+        <div>
+            <form name="calc"  class="calculator">
+                <div class="field">
+                            <label>
+                                Первоначальный вклад
+                                <input name="money" type="number" value="50000" required>
+                            </label>
+                </div>  
+                <div class="field">          
+                            <label>
+                                Срок вклада (в месяцах)
+                                <select name="months">
+                                    <option value="3">3</option>
+                                    <option value="6">6</option>
+                                    <option value="9">9</option>
+                                    <option value="12" selected>12</option>
+                                    <option value="18">18</option>
+                                    <option value="24">24</option>
+                                    <option value="30">30</option>
+                                    <option value="36">36</option>
+                                    <option value="60">60</option>
+                                </select>
+                            </label>
+                </div>
+                <div class="field">
+                            <label>
+                                Годовая процентная ставка
+                                <input name="interest" type="number" value="5" required>
+                            </label> 
+                </div>   
+            </form>
+        </div>
+
+        <table id="diagram">
+            <tr>
+                <th>Было</th>
+                <th>Станет</th>
+            </tr>
+            <tr>
+                <th id="money-before"></th>
+                <th id="money-after"></th>
+            </tr>
+            <td>
+                <div class="before"></div>
+            </td>
+            <td>
+                <div id="height-after" class="after"></div>
+            </td>
+        </table>
+    </div>
+
+    <script>
+        let form = document.forms.calc
+        form.money.oninput = calculate
+        form.months.onchange = calculate
+        form.interest.oninput = calculate
+
+        function calculate(){
+            let money = +form.money.value
+            if (!money) return
+            let interest = form.interest.value * 0.01
+            if (!interest) return
+            let year = form.months.value / 12
+            if (!year) return
+
+            let result = Math.round(money*(1+interest*year))
+            let height = result / form.money.value * 150 + 'px'
+
+            document.getElementById('height-after').style.height = height
+            document.getElementById('money-before').innerHTML = form.money.value
+            document.getElementById('money-after').innerHTML = result
+        }
+        calculate()
+    </script>
+</body>
+</html>
