@@ -62,12 +62,15 @@
     </div>
 
     <script>
+        //Нахождение нужной формы в документе
         let form = document.forms.calc
+        //Взяли данные из формы
         form.money.oninput = calculate
         form.months.onchange = calculate
         form.interest.oninput = calculate
 
         function calculate(){
+            //Проверка полей на заполнение
             let money = +form.money.value
             if (!money) return
             let interest = form.interest.value * 0.01
@@ -75,9 +78,11 @@
             let year = form.months.value / 12
             if (!year) return
 
+            //Вычисление итоговой суммы вклада
             let result = Math.round(money*(1+interest*year))
             let height = result / form.money.value * 150 + 'px'
 
+            //Поместили полученные результаты в соответствующие html элементы 
             document.getElementById('height-after').style.height = height
             document.getElementById('money-before').innerHTML = form.money.value
             document.getElementById('money-after').innerHTML = result
